@@ -24,7 +24,12 @@
 </head>
 
 <body>
-    <div id="info">Description</div>
+    <div id="info">
+        <p>Accelerometer data:</p>
+        <p>WithGravity, x:<span id="x"></span></p>
+        <p>WithGravity, y:<span id="y"></span></p>
+        <p>WithGravity, z:<span id="z"></span></p>
+    </div>
     <script type="module">
         import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
@@ -33,6 +38,20 @@
         let cube = {};
         let scene = {};
         let camera = {};
+
+        if (window.DeviceMotionEvent != undefined) {
+            window.addEventListener("devicemotion", accelerometerUpdate, true);
+        }
+
+        function accelerometerUpdate(event) {
+            var aX = event.accelerationIncludingGravity.x * 10;
+            var aY = event.accelerationIncludingGravity.y * 10;
+            var aZ = event.accelerationIncludingGravity.z * 10;
+
+            document.querySelector("#x").textContent = aX;
+            document.querySelector("#y").textContent = aY;
+            document.querySelector("#z").textContent = aZ;
+        }
 
         async function listener() {
             if (count < 1) {

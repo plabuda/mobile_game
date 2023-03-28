@@ -25,30 +25,52 @@
 
 <body>
     <div id="info">Description</div>
-    <script type="module">        
-        screen.orientation.lock("landscape");
+    <script type="module">
         import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        let count = 0;
+        let renderer = {};
+        let cube = {};
+        let scene = {};
+        let camera = {};
 
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        async function listener() {
+            if (count < 1) {
+                count += 1;
+                document.body.requestFullscreen({ navigationUI: "hide" })
+                    .then(() => {
+                        setup();
+                        animate();
+                    });
 
-        const geometry = new THREE.BoxGeometry(1, 2, 3);
-        const material = new THREE.MeshPhongMaterial( { color: 0x049EF4 } );//new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
+            }
+        }
 
-        const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-        directionalLight.target = cube;
-        directionalLight.position.x = 0;
-        directionalLight.position.z = 3;
-        directionalLight.position.y = 0;
-        scene.add( directionalLight );
+        document.body.addEventListener("touchend", listener);
+        document.body.addEventListener("click", listener);
 
-        camera.position.z = 5;
+        function setup() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth , window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const geometry = new THREE.BoxGeometry(1, 2, 3);
+            const material = new THREE.MeshPhongMaterial({ color: 0x049EF4 });
+            cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.target = cube;
+            directionalLight.position.x = 0;
+            directionalLight.position.z = 3;
+            directionalLight.position.y = 0;
+            scene.add(directionalLight);
+
+            camera.position.z = 5;
+        }
 
         function animate() {
             requestAnimationFrame(animate);
@@ -59,8 +81,6 @@
             renderer.render(scene, camera);
         }
 
-        animate();
     </script>
 </body>
-
 </html>

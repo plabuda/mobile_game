@@ -31,7 +31,8 @@
         <p>WithGravity, z:<span id="z"></span></p>
     </div>
 
-    <script src="three.min.js">
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
         let count = 0;
         let renderer = {};
@@ -73,7 +74,7 @@
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
             renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth , window.innerHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
             const geometry = new THREE.BoxGeometry(1, 2, 3);
@@ -102,4 +103,5 @@
 
     </script>
 </body>
+
 </html>

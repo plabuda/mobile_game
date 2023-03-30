@@ -28,7 +28,8 @@
         <p>Accelerometer data:</p>
         <p>WithGravity, x:<span id="x"></span></p>
         <p>WithGravity, y:<span id="y"></span></p>
-        <p>WithGravity, z:<span id="z"></span></p>
+        <p>WithGravity, z:<span id="z"></span></p>        
+        <p>Camera angle x:<span id="cam_x"></span></p>
     </div>
 
     <script type="module">
@@ -52,6 +53,12 @@
             document.querySelector("#x").textContent = aX;
             document.querySelector("#y").textContent = aY;
             document.querySelector("#z").textContent = aZ;
+
+            var rot = (Math.atan2(aZ, aX) * 180 / Math.PI);
+
+            document.querySelector("#cam_x").textContent = rot;
+            
+            camera.rotation.x = rot;
         }
 
         async function listener() {
@@ -95,9 +102,7 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
-
             renderer.render(scene, camera);
         }
 
